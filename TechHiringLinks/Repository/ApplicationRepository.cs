@@ -21,6 +21,8 @@ namespace TechHiringLinks.Repository
             try
             {
                 var applicationList = await _dataContext.Links
+                                .Include(links => links.LinkApplicationStatus)
+                                    .ThenInclude(ls => ls.ApplicationStatus)
                                 .Select(app => new GetApplicationsDto
                                 {
                                     LinkId = app.LinkId,
@@ -29,7 +31,8 @@ namespace TechHiringLinks.Repository
                                     Position = app.Position,
                                     Location = app.Location,
                                     Status = app.Status,
-                                    DateSubmitted = app.DateSubmitted
+                                    DateSubmitted = app.DateSubmitted,
+                                    ApplicationStatusName = app.LinkApplicationStatus.Select(ls => ls.ApplicationStatus.ApplicationStatusName).FirstOrDefault()
                                 }).ToListAsync();
 
                 _logger.LogInformation("Successfully retrieved application list.");

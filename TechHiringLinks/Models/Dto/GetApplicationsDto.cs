@@ -9,5 +9,6 @@
         public required string Location { get; set; }
         public string? Status { get; set; }
         public DateTime DateSubmitted { get; set; } = DateTime.Now;
+        public required string ApplicationStatusName { get; set; }
     }
 }
