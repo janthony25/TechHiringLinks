@@ -44,6 +44,29 @@ namespace TechHiringLinks.Repository
             }
         }
 
+        public async Task DeleteStatusAsync(int id)
+        {
+            try
+            {
+                var status = await _dataContext.ApplicationStatus.FindAsync(id);
+
+                if (status == null || status.ApplicationStatusId == 0)
+                {
+                    _logger.LogError("Status not found.");
+                    throw new KeyNotFoundException($"Status with id {id} not found.");
+                }
+
+                _dataContext.ApplicationStatus.Remove(status);
+                _logger.LogInformation($"Status with id {id} was deleted successfully.");
+                await _dataContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while deleting ApplicationStatus.");
+                throw;
+            }
+        }
+
         public async Task<List<ApplicationStatusListDto>> GetApplicationStatusListAsync()
         {
             try

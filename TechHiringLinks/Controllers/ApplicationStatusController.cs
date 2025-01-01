@@ -74,5 +74,28 @@ namespace TechHiringLinks.Controllers
                 return StatusCode(500, "An error occurred while updating status.");
             }
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteStatus(int id)
+        {
+            try
+            {
+                _logger.LogInformation($"Request to delete status with id {id}");
+
+                await _statusRepository.DeleteStatusAsync(id);
+                return Ok($"Status with id {id} successfully deleted.");
+
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogError($"Status with id {id} not found.");
+                return NotFound(new {message = ex.Message});    
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An error occurred while deleting status with id {id}.");
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
