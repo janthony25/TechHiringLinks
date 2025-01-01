@@ -54,5 +54,25 @@ namespace TechHiringLinks.Controllers
                 return StatusCode(500, "An error occurred while adding new status.");
             }
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateStatus(int id, UpdateApplicationStatusDto dto)
+        {
+            try
+            {
+                await _statusRepository.UpdateStatusAsync(id, dto);
+                return Ok("StatusName successfully updated.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogError($"StatusName with id {id} not found.");
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while updating status with id {id}");
+                return StatusCode(500, "An error occurred while updating status.");
+            }
+        }
     }
 }

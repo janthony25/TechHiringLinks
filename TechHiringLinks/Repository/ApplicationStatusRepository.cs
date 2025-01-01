@@ -63,5 +63,29 @@ namespace TechHiringLinks.Repository
                 throw;
             }
         }
+
+        public async Task UpdateStatusAsync(int id, UpdateApplicationStatusDto dto)
+        {
+            try
+            {
+                var status = await _dataContext.ApplicationStatus.FindAsync(id);
+
+                if (status == null || status.ApplicationStatusId == 0)
+                {
+                    _logger.LogError("Status not found.");
+                    throw new KeyNotFoundException("Status not found.");
+                }
+
+                status.ApplicationStatusName = dto.ApplicationStatusName;
+
+                _logger.LogInformation("StatusName successfully updated.");
+                await _dataContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating status.");
+                throw;
+            }
+        }
     }
 }

@@ -6,5 +6,6 @@ namespace TechHiringLinks.Repository.IRepository
     {
         Task<List<ApplicationStatusListDto>> GetApplicationStatusListAsync();
         Task AddStatusAsync(AddApplicationStatusDto dto);
+        Task UpdateStatusAsync(int id, UpdateApplicationStatusDto dto);
     }
 }
