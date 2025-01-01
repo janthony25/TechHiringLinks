@@ -1,0 +1,6 @@
+@TechHiringLinks_HostAddress = http://localhost:5100
+
+GET {{TechHiringLinks_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
