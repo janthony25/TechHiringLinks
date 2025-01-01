@@ -36,21 +36,6 @@ namespace TechHiringLinks.Controllers
             }
         }
 
-        [HttpGet("StatusList")]
-        public async Task<IActionResult> GetStatusList()
-        {
-            try
-            {
-                _logger.LogInformation("Request to retrieve status list.");
-
-                var statusList = await _statusRepository.GetApplicationStatusListAsync();
-                return Ok(statusList);
-
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "An unexpected error occurred.");
-            }
-        }
+      
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TechHiringLinks.Data;
+using TechHiringLinks.Models;
 using TechHiringLinks.Models.Dto;
 using TechHiringLinks.Repository.IRepository;
 
@@ -15,6 +16,34 @@ namespace TechHiringLinks.Repository
             _dataContext = dataContext;
             _logger = logger;
         }
+
+        public async Task AddStatusAsync(AddApplicationStatusDto dto)
+        {
+            try
+            {
+
+                if (string.IsNullOrEmpty(dto.ApplicationStatusName))
+                {
+                    _logger.LogError("Invalid input: ApplicationStatusName is null or empty.");
+                    throw new ArgumentNullException(nameof(dto.ApplicationStatusName), "ApplicationStatusName cannot be null or empty");
+                }
+
+                var application = new ApplicationStatus
+                {
+                    ApplicationStatusName = dto.ApplicationStatusName
+                };
+
+
+                _dataContext.ApplicationStatus.Add(application);
+                await _dataContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while adding new status.");
+                throw;
+            }
+        }
+
         public async Task<List<ApplicationStatusListDto>> GetApplicationStatusListAsync()
         {
             try
