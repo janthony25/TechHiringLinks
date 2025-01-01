@@ -17,10 +17,19 @@ namespace TechHiringLinks.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Many-to-Many Relationship ( Link - ApplicationStatus )
             builder.Entity<LinkApplicationStatus>()
                 .HasKey(ls => new { ls.LinkId, ls.ApplicationStatusId });
 
-            
+            builder.Entity<LinkApplicationStatus>()
+                .HasOne(ls => ls.Link)
+                .WithMany(link => link.LinkApplicationStatus)
+                .HasForeignKey(ls => ls.LinkId);
+
+            builder.Entity<LinkApplicationStatus>()
+                .HasOne(ls => ls.ApplicationStatus)
+                .WithMany(appStatus => appStatus.LinkApplicationStatus)
+                .HasForeignKey(ls => ls.ApplicationStatusId);
 
             base.OnModelCreating(builder);
         }

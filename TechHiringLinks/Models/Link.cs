@@ -13,5 +13,7 @@ namespace TechHiringLinks.Models
         public string? Status { get; set; }
         public DateTime DateSubmitted { get; set; } = DateTime.Now;
 
+        public ICollection<LinkApplicationStatus> LinkApplicationStatus { get;set; }
+
     }
 }

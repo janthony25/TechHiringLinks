@@ -6,7 +6,8 @@ namespace TechHiringLinks.Models
     {
         [Key]
         public int ApplicationStatusId { get; set; }
-        public required string ApplicationStatusName { get; set; }   
+        public required string ApplicationStatusName { get; set; }
+        public ICollection<LinkApplicationStatus> LinkApplicationStatus { get; set; }       
 
     }
 }

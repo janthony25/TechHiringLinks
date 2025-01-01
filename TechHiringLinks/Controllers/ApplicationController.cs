@@ -10,14 +10,17 @@ namespace TechHiringLinks.Controllers
     {
         private readonly IApplicationRepository _applicationRepository;
         private readonly ILogger<ApplicationController> _logger;    
+        private readonly IApplicationStatusRepository _statusRepository;
 
-        public ApplicationController(IApplicationRepository applicationRepository, ILogger<ApplicationController> logger)
+        public ApplicationController(IApplicationRepository applicationRepository, ILogger<ApplicationController> logger, 
+                                     IApplicationStatusRepository statusRepository)
         {
             _applicationRepository = applicationRepository;
             _logger = logger;
+            _statusRepository = statusRepository;
         }
 
-        [HttpGet]
+        [HttpGet("ApplicationList")]
         public async Task<IActionResult> GetApplicationList()
         {
             try
@@ -30,6 +33,23 @@ namespace TechHiringLinks.Controllers
             catch (Exception)
             {
                 return StatusCode(500, new { message = "An unexpected error occured." });
+            }
+        }
+
+        [HttpGet("StatusList")]
+        public async Task<IActionResult> GetStatusList()
+        {
+            try
+            {
+                _logger.LogInformation("Request to retrieve status list.");
+
+                var statusList = await _statusRepository.GetApplicationStatusListAsync();
+                return Ok(statusList);
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
             }
         }
     }
